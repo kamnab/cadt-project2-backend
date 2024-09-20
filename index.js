@@ -24,12 +24,13 @@ dbConnect().catch((err) => console.log(err));
 
 app.use(cors())
 app.use(parser.json());
-app.use(introspection)
-app.use(logger);
 
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
+
+app.use(logger);
+app.use(introspection)
 
 app.use("/tenants", tenantRouter);
 app.use(errorHandle);
