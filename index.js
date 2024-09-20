@@ -40,7 +40,7 @@ app.use(errorHandle);
 //     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
 //     console.log(`Server is running on http://localhost:${port}`);
 // });
-app.listen(process.env.PORT || 3000, function () {
+app.listen(port, function () {
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 // - Use https://
