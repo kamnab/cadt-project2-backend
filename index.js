@@ -36,13 +36,14 @@ app.use("/tenants", tenantRouter);
 app.use(errorHandle);
 
 // - Use http://
-// app.listen(port, () => {
-//     console.log(`Server is running on http://localhost:${port}`);
-// });
+app.listen(port, () => {
+    console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
+    console.log(`Server is running on http://localhost:${port}`);
+});
 
 // - Use https://
-const server = https.createServer({ key, cert }, app);
-server.listen(port, () => {
-    console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
-    console.log(`${process.env._NODE_ENV} Server is running on https://localhost:${port}`);
-});
+// const server = https.createServer({ key, cert }, app);
+// server.listen(port, () => {
+//     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
+//     console.log(`${process.env._NODE_ENV} Server is running on https://localhost:${port}`);
+// });
