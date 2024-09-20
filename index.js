@@ -9,7 +9,7 @@ const parser = require("body-parser");
 const cors = require('cors')
 const express = require('express');
 const app = express();
-const port = process.env.PORT;
+const port = 4000;
 
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
@@ -42,7 +42,7 @@ app.use(errorHandle);
 
 // - Use https://
 const server = https.createServer({ key, cert }, app);
-server.listen(80, () => {
-    console.log(`INTROSPECT_ENDPOINT: ${process.env.INTROSPECT_ENDPOINT}`)
+server.listen(443, () => {
+    console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
     console.log(`${process.env._NODE_ENV} Server is running on https://localhost:${port}`);
 });
