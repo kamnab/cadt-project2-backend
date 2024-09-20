@@ -42,7 +42,7 @@ app.use(errorHandle);
 
 // - Use https://
 const server = https.createServer({ key, cert }, app);
-server.listen(443, () => {
+server.listen(port, () => {
     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
     console.log(`${process.env._NODE_ENV} Server is running on https://localhost:${port}`);
 });
