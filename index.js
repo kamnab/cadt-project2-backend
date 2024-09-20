@@ -9,7 +9,7 @@ const parser = require("body-parser");
 const cors = require('cors')
 const express = require('express');
 const app = express();
-const port = 4000;
+const port = process.env.PORT;
 
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
