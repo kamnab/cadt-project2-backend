@@ -47,11 +47,14 @@ app.use(errorHandle);
 //     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
 //     console.log(`Server is running on http://localhost:${port}`);
 // });
-
-// - Use https://
-const server = https.createServer({ key, cert }, app);
-server.listen(port, () => {
-    console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
-    console.log(`${app.settings.env.toUpperCase()}[${process.env._NODE_ENV}] is running on https://localhost:${port}`);
-    console.log(`Swagger docs available at https://localhost:${port}/api-docs`);
+app.listen(port, function () {
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
+
+// // - Use https://
+// const server = https.createServer({ key, cert }, app);
+// server.listen(port, () => {
+//     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
+//     console.log(`${app.settings.env.toUpperCase()}[${process.env._NODE_ENV}] is running on https://localhost:${port}`);
+//     console.log(`Swagger docs available at https://localhost:${port}/api-docs`);
+// });
