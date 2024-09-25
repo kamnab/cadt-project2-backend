@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 
 const tenantSchema = new mongoose.Schema({
     name: { type: String, require: true },
-    description: String,
-    inviteCode: String, // Unique
+    description: { type: String },
+    inviteCode: { type: String }, // Unique
 
     createdByUserId: {
         type: String
