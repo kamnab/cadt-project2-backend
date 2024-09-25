@@ -30,7 +30,7 @@ dbConnect().catch((err) => console.log(err));
 app.use(cors())
 app.use(parser.json());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
