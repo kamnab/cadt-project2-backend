@@ -30,7 +30,7 @@ dbConnect().catch((err) => console.log(err));
 app.use(cors())
 app.use(parser.json());
 
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
@@ -42,13 +42,13 @@ app.use(introspection)
 app.use(tenantRouter);
 app.use(errorHandle);
 
+
 // - Use http://
-// app.listen(port, () => {
-//     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
-//     console.log(`Server is running on http://localhost:${port}`);
-// });
-app.listen(port, function () {
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+// - DEPLOY to heroku using this, otherwise, the server is not working.
+app.listen(port, () => {
+    console.log("Express server listening on port %d in %s mode with ${process.env._NODE_ENV}", this.address().port, app.settings.env);
+    console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
+    console.log(`Swagger docs available at https://localhost:${port}/api-docs`);
 });
 
 // // - Use https://
