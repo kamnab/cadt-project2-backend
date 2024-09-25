@@ -7,8 +7,13 @@ const tenantSchema = new mongoose.Schema({
     description: String,
     inviteCode: String, // Unique
 
-    createdByUserId: { type: String },
-    createdOn: { type: Date, default: Date.now },
+    createdByUserId: {
+        type: String
+    },
+    createdOn: {
+        type: Date,
+        //default: Date.now
+    },
 
     isDeleted: { type: Boolean, default: false },
     deletedByUserId: { type: String },

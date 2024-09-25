@@ -7,6 +7,7 @@ const fs = require("fs");
 const https = require("https");
 const parser = require("body-parser");
 const cors = require('cors')
+
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 4000;
@@ -18,6 +19,11 @@ const { introspection } = require('./middlewares/introspection.js');
 
 const { tenantRouter } = require("./routes/tenantRoute.js")
 
+// swagger autogen
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger/swagger_output.json')
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
 //DB Connect
 const dbConnect = require("./db/db.js");
 dbConnect().catch((err) => console.log(err));
@@ -25,14 +31,16 @@ dbConnect().catch((err) => console.log(err));
 app.use(cors())
 app.use(parser.json());
 
+
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
 
 app.use(logger);
+
 app.use(introspection)
 
-app.use("/tenants", tenantRouter);
+app.use(tenantRouter);
 app.use(errorHandle);
 
 // - Use http://
@@ -40,12 +48,11 @@ app.use(errorHandle);
 //     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
 //     console.log(`Server is running on http://localhost:${port}`);
 // });
-app.listen(port, function () {
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-});
+
 // - Use https://
-// const server = https.createServer({ key, cert }, app);
-// server.listen(port, () => {
-//     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
-//     console.log(`${process.env._NODE_ENV} Server is running on https://localhost:${port}`);
-// });
+const server = https.createServer({ key, cert }, app);
+server.listen(port, () => {
+    console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
+    console.log(`${app.settings.env.toUpperCase()}[${process.env._NODE_ENV}] is running on https://localhost:${port}`);
+    console.log(`Swagger docs available at https://localhost:${port}/api-docs`);
+});
