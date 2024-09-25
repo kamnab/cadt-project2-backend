@@ -42,11 +42,10 @@ app.use(introspection)
 app.use(tenantRouter);
 app.use(errorHandle);
 
-
 // - Use http://
 // - DEPLOY to heroku using this, otherwise, the server is not working.
-app.listen(port, () => {
-    console.log("Express server listening on port %d in %s mode with ${process.env._NODE_ENV}", this.address().port, app.settings.env);
+app.listen(port, function () {
+    console.log(`Express server listening on port %d in %s mode with [${process.env._NODE_ENV}]`, this.address().port, app.settings.env);
     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
     console.log(`Swagger docs available at https://localhost:${port}/api-docs`);
 });
