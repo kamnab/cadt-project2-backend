@@ -11,6 +11,8 @@ const cors = require('cors')
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 4000;
+const env = app.settings.env.toUpperCase();
+const isDev = env == 'DEVELOPMENT';
 
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
@@ -42,18 +44,33 @@ app.use(introspection)
 app.use(tenantRouter);
 app.use(errorHandle);
 
-// - Use http://
-// - DEPLOY to heroku using this, otherwise, the server is not working.
-app.listen(port, function () {
-    console.log(`Express server listening on port %d in %s mode with [${process.env._NODE_ENV}]`, this.address().port, app.settings.env);
-    console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
-    console.log(`Swagger docs available at https://localhost:${port}/api-docs`);
-});
+if (!isDev) {
+    // - Use http://
+    // - DEPLOY to heroku using this, otherwise, the server is not working.
+    app.listen(port, function () {
+        const host = this.address().address === '::' ? 'localhost' : server.address().address;
+        const port = this.address().port;
+        const baseUrl = `https://${host}:${port}`;
 
-// // - Use https://
-// const server = https.createServer({ key, cert }, app);
-// server.listen(port, () => {
-//     console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
-//     console.log(`${app.settings.env.toUpperCase()}[${process.env._NODE_ENV}] is running on https://localhost:${port}`);
-//     console.log(`Swagger docs available at https://localhost:${port}/api-docs`);
-// });
+        console.log(`---`)
+        console.log(`Express server is running on ${baseUrl} in ${env} mode with [${process.env._NODE_ENV}]`);
+        console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
+        console.log(`Swagger docs available at ${baseUrl}/api-docs`)
+        console.log(`---`)
+    });
+} else {
+    // - Use https://
+    const server = https.createServer({ key, cert }, app);
+    server.listen(port, function () {
+        const host = this.address().address === '::' ? 'localhost' : server.address().address;
+        const port = this.address().port;
+        const baseUrl = `https://${host}:${port}`;
+
+        console.log(`---`)
+        console.log(`Express server is running on ${baseUrl} in ${env} mode with [${process.env._NODE_ENV}]`);
+        console.log(`INTROSPECT_ENDPOINT ${process.env.INTROSPECT_ENDPOINT}`)
+        console.log(`Swagger docs available at ${baseUrl}/api-docs`)
+        console.log(`---`)
+
+    });
+}

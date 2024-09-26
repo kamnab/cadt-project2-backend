@@ -12,8 +12,10 @@ const getTenantById = async (req, res) => {
     const userId = req.user.sub;
     const tenant = await Tenant.findById(id);
 
-    if (!tenant || tenant.userId != userId || tenant.isDeleted) {
-        return res.status(404).json({ error: 'Tenant not found' });
+    if (!tenant || (tenant.isDeleted && tenant.userId != userId)) {
+        return res.status(404).json({
+            error: 'Tenant not found'
+        });
     }
 
     res.json(tenant);
@@ -55,19 +57,24 @@ const setDeletedTenantById = asyncHandler(async (req, res, next) => {
     // [-] createdByUserId == userId && isDeleted = false
     // update only isDeleted = from req.Body, deletedByUserId = userId and deletedOn = Date.now
 
-    const id = req.params.id
+    const id = req.params.id;
     const userId = req.user.sub;
+    const tenant = await Tenant.findById(id);
 
-    const { isDeleted, ...self } = req.body
-    // const result = await Tenant.updateOne({ ...self, id })
+    if (!tenant || (tenant.isDeleted && tenant.userId != userId)) {
+        return res.status(404).json({
+            error: 'Tenant not found'
+        });
+    }
 
-    const result = await Tenant.updateOne({
-        ...self,
-        id,
-    })
+    // Update fields as needed
+    tenant.isDeleted = true;
 
-    const tenant = await Tenant.findById(id)
-    return res.json({ result, tenant })
+    // Save the updated tenant back to the database
+    await tenant.save();
+
+    //const updatedTenant = await Tenant.findById(id)
+    return res.json(tenant)
 })
 
 const createTenant = asyncHandler(async (req, res) => {
@@ -106,14 +113,23 @@ const updateTenantById = asyncHandler(async (req, res, next) => {
     const userId = req.user.sub;
     const tenant = await Tenant.findById(id);
 
-    if (!tenant || tenant.isDeleted) {
-        return res.status(404).json({ error: 'Tenant not found' });
+    if (!tenant || (tenant.isDeleted && tenant.userId != userId)) {
+        return res.status(404).json({
+            error: 'Tenant not found'
+        });
     }
 
-    const { createdByUserId, createdOn, isDeleted, deletedByUserId, deletedOn, ...self } = req.body
-    const result = await Tenant.updateOne({ ...self, id })
-    const updatedTenant = await Tenant.findById(id)
-    return res.json({ result, updatedTenant })
+    const { name, description } = req.body
+
+    // Update fields as needed
+    tenant.name = name;
+    tenant.description = description;
+
+    // Save the updated tenant back to the database
+    await tenant.save();
+
+    //const updatedTenant = await Tenant.findById(id)
+    return res.json(tenant)
 })
 
 // use as a Property 

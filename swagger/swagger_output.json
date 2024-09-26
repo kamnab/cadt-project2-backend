@@ -61,23 +61,9 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "isDeleted": {
-                    "example": "any"
-                  },
-                  "self": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
@@ -110,22 +96,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "createdByUserId": {
+                  "name": {
                     "example": "any"
                   },
-                  "createdOn": {
-                    "example": "any"
-                  },
-                  "isDeleted": {
-                    "example": "any"
-                  },
-                  "deletedByUserId": {
-                    "example": "any"
-                  },
-                  "deletedOn": {
-                    "example": "any"
-                  },
-                  "self": {
+                  "description": {
                     "example": "any"
                   }
                 }
