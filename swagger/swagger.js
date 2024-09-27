@@ -32,12 +32,37 @@ const doc = {
                 bearerFormat: 'JWT',  // Optional JWT format
                 in: 'header',
                 name: 'Authorization'
+            },
+            // OAuth2ClientCredentials: {
+            //     type: 'oauth2',
+            //     flows: {
+            //         clientCredentials: {
+            //             tokenUrl: 'https://account.codemie.dev/connect/token',
+            //             scopes: {
+            //                 fapi: 'Access CADT-Project2-Backend API Endpoinds'
+            //             }
+            //         }
+            //     }
+            // },
+            authorizationCode: {  // Authorization Code Flow
+                type: 'oauth2',
+                flows: {
+                    authorizationCode: {
+                        authorizationUrl: 'https://account.codemie.dev/connect/authorize',
+                        tokenUrl: 'https://account.codemie.dev/connect/token',
+                        scopes: {
+                            fapi: 'Access to CADT-Project2-Backend API Endpoints',
+                        }
+                    }
+                }
             }
         }
     },
     security: [
         {
-            bearerAuth: []
+            bearerAuth: [],
+            //OAuth2ClientCredentials: []
+            authorizationCode: []  // Referencing authorizationCode flow, not OAuth2ClientCredentials
         }
     ]
 };

@@ -159,12 +159,25 @@
         "bearerFormat": "JWT",
         "in": "header",
         "name": "Authorization"
+      },
+      "authorizationCode": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://localhost:44313/connect/authorize",
+            "tokenUrl": "https://localhost:44313/connect/token",
+            "scopes": {
+              "fapi": "Access to CADT-Project2-Backend API Endpoints"
+            }
+          }
+        }
       }
     }
   },
   "security": [
     {
-      "bearerAuth": []
+      "bearerAuth": [],
+      "authorizationCode": []
     }
   ]
 }

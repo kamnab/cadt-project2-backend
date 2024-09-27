@@ -1,7 +1,7 @@
 // index.js
 
 require('dotenv').config({
-    //path: `.env.${process.env.NODE_ENV}`
+    path: `.env.${process.env.NODE_ENV}`
 })
 const fs = require("fs");
 const https = require("https");
@@ -32,7 +32,19 @@ dbConnect().catch((err) => console.log(err));
 app.use(cors())
 app.use(parser.json());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
+    swaggerOptions: {
+        oauth: {
+            clientId: 'mobile-client-swagger',
+            clientSecret: 'CADT-PROJECT2-MOBILE-CLIENT-2024',
+
+            useBasicAuthenticationWithAccessCodeGrant: true,
+            // Default scopes to be pre-selected
+            scopes: "fapi"
+        }
+    }
+}))
+
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
@@ -48,7 +60,8 @@ if (!isDev) {
     // - Use http://
     // - DEPLOY to heroku using this, otherwise, the server is not working.
     app.listen(port, function () {
-        const host = this.address().address === '::' ? 'localhost' : server.address().address;
+        var address = this.address().address;
+        const host = address === '::' ? 'localhost' : address;
         const port = this.address().port;
         const baseUrl = `https://${host}:${port}`;
 
