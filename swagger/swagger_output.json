@@ -164,8 +164,8 @@
         "type": "oauth2",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://localhost:44313/connect/authorize",
-            "tokenUrl": "https://localhost:44313/connect/token",
+            "authorizationUrl": "https://account.codemie.dev/connect/authorize",
+            "tokenUrl": "https://account.codemie.dev/connect/token",
             "scopes": {
               "fapi": "Access to CADT-Project2-Backend API Endpoints"
             }
