@@ -2,8 +2,6 @@
 
 const asyncHandler = require('express-async-handler')
 const axios = require('axios');
-// const https = require('https')
-// const fs = require("fs");
 
 /* 
     To further enhance security, you can use Certificate Public Key export from authorization server. 
@@ -15,6 +13,9 @@ const axios = require('axios');
     Use the certificate in the Axios request.
 */
 
+
+// const https = require('https')
+// const fs = require("fs");
 // const agent = new https.Agent({
 //     ca: fs.readFileSync('localhost-server.pem')
 // });

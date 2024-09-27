@@ -1,8 +1,5 @@
 // index.js
 
-require('dotenv').config({
-    path: `.env.${process.env.NODE_ENV}`
-})
 const fs = require("fs");
 const https = require("https");
 const parser = require("body-parser");
@@ -14,6 +11,9 @@ const port = process.env.PORT || 4000;
 const env = app.settings.env.toUpperCase();
 const isDev = env == 'DEVELOPMENT';
 
+require('dotenv').config(isDev ? {
+    path: `.env.${process.env.NODE_ENV}`
+} : {})
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
 const { logger, errorHandle } = require('./middlewares/index.js');
