@@ -4,6 +4,7 @@ const fs = require("fs");
 const https = require("https");
 const parser = require("body-parser");
 const cors = require('cors')
+const path = require('path')
 
 const express = require('express');
 const app = express();
@@ -12,7 +13,7 @@ const env = app.settings.env.toUpperCase();
 const isDev = env == 'DEVELOPMENT';
 
 require('dotenv').config(isDev ? {
-    path: `.env.${process.env.NODE_ENV}`
+    //path: `.env.${process.env.NODE_ENV}`
 } : {})
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
@@ -45,13 +46,27 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
     }
 }))
 
+// // OpenApi Specification
+// app.get('/swagger-output-json', (req, res) => {
+//     res.sendFile(path.join(__dirname, '/swagger/swagger_output.json'));
+// });
+
+// // Serve the custom JavaScript file to override the default logout behavior
+// app.get('/custom-swagger-js', (req, res) => {
+//     res.sendFile(path.join(__dirname, '/public/custom-swagger.js'));
+// });
+
+// // Serve custom Swagger UI with OAuth logout customization
+// app.get('/api-docs', (req, res) => {
+//     res.sendFile(path.join(__dirname, '/public/index.html')); // Path to your custom Swagger UI HTML file
+// });
+
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
 
-app.use(logger);
-
 app.use(introspection)
+app.use(logger);
 
 app.use(tenantRouter);
 app.use(errorHandle);

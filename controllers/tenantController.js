@@ -91,8 +91,13 @@ const createTenant = asyncHandler(async (req, res) => {
         description: description,
 
         createdByUserId: req.user.sub,
-        createdOn: utcPlus7Date
+        createdOn: utcPlus7Date,
+
+        host: req.headers.host,
+        origin: req.headers.origin,
+        referer: req.headers.referer
     });
+
     //const error = tenant.validateSync();
     const result = await tenant.save();
     return res.json(result);

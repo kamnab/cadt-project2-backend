@@ -9,7 +9,7 @@ const doc = {
     openapi: "3.0.0",  // Specify OpenAPI version
     info: {
         version: "1.0.0",
-        title: "CADT Project2 Backend: API Endpoint Documentation",
+        title: "CADT Project2 Backend: API Endpoints",
         description: "API documentation generated with OpenAPI 3.0"
     },
     servers: [
@@ -56,6 +56,19 @@ const doc = {
                     }
                 }
             }
+            /*
+authorizationCode (OAuth2, authorizationCode)
+Authorized
+Authorization URL: https://account.codemie.dev/connect/authorize
+
+Token URL: https://account.codemie.dev/connect/token
+
+Flow: authorizationCode
+
+client_id: ******
+client_secret: ******
+Logout
+*/
         }
     },
     security: [

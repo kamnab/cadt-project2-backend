@@ -17,7 +17,11 @@ const tenantSchema = new mongoose.Schema({
 
     isDeleted: { type: Boolean, default: false },
     deletedByUserId: { type: String },
-    deletedOn: { type: Date }
+    deletedOn: { type: Date },
+
+    host: { type: String, default: '' },
+    origin: { type: String, default: '' },
+    referer: { type: String, default: '' }
 });
 
 const tenant = mongoose.model('tenant', tenantSchema);

@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "CADT Project2 Backend: API Endpoint Documentation",
+    "title": "CADT Project2 Backend: API Endpoints",
     "description": "API documentation generated with OpenAPI 3.0"
   },
   "servers": [
@@ -126,6 +126,29 @@
           "Tenants"
         ],
         "description": "create new tenant",
+        "parameters": [
+          {
+            "name": "host",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "referer",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
