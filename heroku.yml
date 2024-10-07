@@ -1,3 +1,8 @@
+# ------------------ 
+# heroku stack:set container --app cadt-project2-backend
+# ------------------ 
+# create heroku.yml in the root folder
+
 build:
   docker:
     web: Dockerfile
