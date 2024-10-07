@@ -1,5 +1,7 @@
 services:
-  cadt-project2-backend:
-    build: .
-    volumes:
-      - /app/node_modules
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
