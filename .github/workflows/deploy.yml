@@ -20,14 +20,51 @@ jobs:
 
       - name: Build Docker image
         run: |
-            docker build -t my-express-app .
+            docker build -t cadt-project2-backend-deploy .
   
       - name: SCP Docker image to remote server
         run: |
-            docker save my-express-app | bzip2 | ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'bunzip2 | docker load'
+            docker save cadt-project2-backend-deploy | bzip2 | ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'bunzip2 | docker load'
+      
+      # Step 1: check if Docker is installed
+      - name: Check Docker Installation
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
+            if ! command -v docker &> /dev/null
+            then
+              echo "Docker is not installed. Installing Docker..."
+              # Install necessary packages for Docker installation
+              sudo apt-get update -y
+              sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
   
+              # Add Docker’s GPG key
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  
+              # Add Docker repository to APT sources
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
+              # Update the package list and install Docker
+              sudo apt-get update -y
+              sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+  
+              # Enable and start Docker service
+              sudo systemctl enable docker
+              sudo systemctl start docker
+  
+              # Add the current user to the docker group (if needed)
+              sudo usermod -aG docker $USER
+            else
+              echo "Docker is already installed."
+            fi
+          EOF
+
+      # Step 2: Verify Docker Installation (Optional)
+      - name: Verify Docker Installation
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "docker --version"
+
       - name: Run Docker container on remote server
         run: |
             ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
-            "docker stop my-express-app || true && docker rm my-express-app || true && \
-             docker run -d -p 80:4000 --name my-express-app my-express-app"
+            "docker stop cadt-project2-backend-deploy || true && docker rm cadt-project2-backend-deploy || true && \
+             docker run -d -p 80:4000 --name cadt-project2-backend-deploy cadt-project2-backend-deploy"
