@@ -67,4 +67,4 @@ jobs:
         run: |
             ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
             "docker stop cadt-project2-backend-deploy || true && docker rm cadt-project2-backend-deploy || true && \
-             docker run -d -p 80:4000 --name cadt-project2-backend-deploy cadt-project2-backend-deploy"
+             docker run -d -p 80:4000 -p 443:4000 --name cadt-project2-backend-deploy cadt-project2-backend-deploy"
