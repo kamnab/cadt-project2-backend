@@ -1,11 +1,14 @@
-// models/tenant.js
+// models/tenantItem.js
 
 const mongoose = require('mongoose');
 
-const tenantSchema = new mongoose.Schema({
-    name: { type: String, default: '', require: true },
-    description: { type: String, default: '' },
-    inviteCode: { type: String }, // Unique
+const tenantItemSchema = new mongoose.Schema({
+    tenantId: { type: String, require: true },
+    // articleId, fileId, ....
+    itemId: { type: String, require: true },
+
+    // save [id] of the parent record in this entity
+    forwardId: { type: String, default: '' },
 
     // ---------------------------------
     createdByUserId: {
@@ -25,6 +28,6 @@ const tenantSchema = new mongoose.Schema({
     referer: { type: String, default: '' }
 });
 
-const tenant = mongoose.model('tenant', tenantSchema);
+const tenantItem = mongoose.model('tenantItem', tenantItemSchema);
 
-module.exports = tenant;
+module.exports = tenantItem;

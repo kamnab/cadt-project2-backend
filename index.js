@@ -21,6 +21,7 @@ const { logger, errorHandle } = require('./middlewares/index.js');
 const { introspection } = require('./middlewares/introspection.js');
 
 const { tenantRouter } = require("./routes/tenantRoute.js")
+const { tenantItemRouter } = require("./routes/tenantItemRoute.js")
 
 // swagger autogen
 const swaggerUi = require('swagger-ui-express')
@@ -46,21 +47,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
     }
 }))
 
-// // OpenApi Specification
-// app.get('/swagger-output-json', (req, res) => {
-//     res.sendFile(path.join(__dirname, '/swagger/swagger_output.json'));
-// });
-
-// // Serve the custom JavaScript file to override the default logout behavior
-// app.get('/custom-swagger-js', (req, res) => {
-//     res.sendFile(path.join(__dirname, '/public/custom-swagger.js'));
-// });
-
-// // Serve custom Swagger UI with OAuth logout customization
-// app.get('/api-docs', (req, res) => {
-//     res.sendFile(path.join(__dirname, '/public/index.html')); // Path to your custom Swagger UI HTML file
-// });
-
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
@@ -69,11 +55,12 @@ app.use(introspection)
 app.use(logger);
 
 app.use(tenantRouter);
+app.use(tenantItemRouter);
 app.use(errorHandle);
 
 if (!isDev) {
     // - Use http://
-    // - DEPLOY to heroku using this, otherwise, the server is not working.
+    // - DEPLOY to heroku using non-SSL [http://] because heroku will provide SSL [https://] by default, otherwise, the server is not working.
     app.listen(port, function () {
         var address = this.address().address;
         const host = address === '::' ? 'localhost' : address;
