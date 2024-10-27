@@ -2,6 +2,8 @@
 
 const asyncHandler = require('express-async-handler')
 const axios = require('axios');
+const env = app.settings.env.toUpperCase();
+const isDev = env == 'DEVELOPMENT';
 
 /* 
     To further enhance security, you can use Certificate Public Key export from authorization server. 
@@ -45,7 +47,7 @@ const introspection = asyncHandler(async (req, res, next) => {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             /* required public certificate from authorization server to be able to make a request */
-            httpsAgent: agent
+            httpsAgent: isDev ? agent : null
         }
     );
 
