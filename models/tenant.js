@@ -13,7 +13,7 @@ const tenantSchema = new mongoose.Schema({
     },
     createdOn: {
         type: Date,
-        //default: Date.now
+        default: Date.now
     },
 
     isDeleted: { type: Boolean, default: false },

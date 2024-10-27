@@ -174,6 +174,17 @@
       }
     },
     "/tenantItems": {
+      "get": {
+        "tags": [
+          "TenantItems"
+        ],
+        "description": "get all tenants's item owned by tenantID not [logged in user] and is not in deleted status",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "post": {
         "tags": [
           "TenantItems"
@@ -222,6 +233,29 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/tenantItems/{tenantId}": {
+      "get": {
+        "tags": [
+          "TenantItems"
+        ],
+        "description": "get all tenants's item owned by tenantID not [logged in user] and is not in deleted status",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

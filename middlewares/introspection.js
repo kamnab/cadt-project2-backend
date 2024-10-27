@@ -14,11 +14,11 @@ const axios = require('axios');
 */
 
 
-// const https = require('https')
-// const fs = require("fs");
-// const agent = new https.Agent({
-//     ca: fs.readFileSync('localhost-server.pem')
-// });
+const https = require('https')
+const fs = require("fs");
+const agent = new https.Agent({
+    ca: fs.readFileSync('localhost-server.pem')
+});
 
 // Middleware for token introspection
 const introspection = asyncHandler(async (req, res, next) => {
@@ -41,11 +41,11 @@ const introspection = asyncHandler(async (req, res, next) => {
             client_secret: process.env.CLIENT_SECRET,
         }),
         {
-            // headers: {
-            //     'Content-Type': 'application/x-www-form-urlencoded',
-            // },
-            // required public certificate from authorization server to be able to make a request 
-            //httpsAgent: agent
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            /* required public certificate from authorization server to be able to make a request */
+            httpsAgent: agent
         }
     );
 

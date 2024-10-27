@@ -18,7 +18,7 @@ const createTenantItem = asyncHandler(async (req, res) => {
         itemId: itemId,
 
         createdByUserId: req.user.sub,
-        createdOn: utcPlus7Date,
+        //createdOn: utcPlus7Date,
 
         host: req.headers.host,
         origin: req.headers.origin,
@@ -30,12 +30,41 @@ const createTenantItem = asyncHandler(async (req, res) => {
     return res.json(result);
 });
 
-// use as a Property 
-const utcPlus7Date = (() => {
-    const offset = 7 * 60 * 60 * 1000; // UTC+7 offset in milliseconds
-    return Date.now() + offset;
-})();
+const getAllTenantItems = async (req, res) => {
+    // #swagger.tags = ['TenantItems']
+    // #swagger.description = "get all tenants's item owned by tenantID not [logged in user] and is not in deleted status"
+
+    // check if user is authenticated
+    // get userId of authenticated user
+    // get all tenants by userId and is not in deleted status
+    // 
+    const tenantId = req.params.tenantId;
+    const userId = req.user.sub;
+
+    const tenantItems = await TenantItem.find().sort({ 'createdOn': 'desc' });
+    return res.json(tenantItems);
+};
+
+const getTenantItems = async (req, res) => {
+    // #swagger.tags = ['TenantItems']
+    // #swagger.description = "get all tenants's item owned by tenantID not [logged in user] and is not in deleted status"
+
+    // check if user is authenticated
+    // get userId of authenticated user
+    // get all tenants by userId and is not in deleted status
+    // 
+    const tenantId = req.params.tenantId;
+    const userId = req.user.sub;
+
+    const tenantItems = await TenantItem.find({
+        tenantId: tenantId,
+        isDeleted: false
+    }).sort({ createdOn: -1 });
+    return res.json(tenantItems);
+};
 
 module.exports = {
-    createTenantItem
+    getAllTenantItems,
+    createTenantItem,
+    getTenantItems
 };

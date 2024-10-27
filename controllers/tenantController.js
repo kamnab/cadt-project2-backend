@@ -91,7 +91,7 @@ const createTenant = asyncHandler(async (req, res) => {
         description: description,
 
         createdByUserId: req.user.sub,
-        createdOn: utcPlus7Date,
+        //createdOn: utcPlus7Date,
 
         host: req.headers.host,
         origin: req.headers.origin,
@@ -137,11 +137,11 @@ const updateTenantById = asyncHandler(async (req, res, next) => {
     return res.json(tenant)
 })
 
-// use as a Property 
-const utcPlus7Date = (() => {
-    const offset = 7 * 60 * 60 * 1000; // UTC+7 offset in milliseconds
-    return Date.now() + offset;
-})();
+// // use as a Property 
+// const utcPlus7Date = (() => {
+//     const offset = 7 * 60 * 60 * 1000; // UTC+7 offset in milliseconds
+//     return Date.now() + offset;
+// })();
 
 module.exports = {
     getTenantById, getTenants, createTenant, deleteTenantById, setDeletedTenantById, updateTenantById
