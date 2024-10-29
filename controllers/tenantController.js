@@ -66,7 +66,7 @@ const getTenants = async (req, res) => {
     // Step 4: Combine both results
     const tenants = [...tenantMatches, ...userIdMatches];
 
-    return res.json(tenants);
+    return res.json(tenants.sort({ createdOn: -1 }));
 };
 
 // hard delete
