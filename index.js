@@ -22,6 +22,7 @@ const { introspection } = require('./middlewares/introspection.js');
 
 const { tenantRouter } = require("./routes/tenantRoute.js")
 const { tenantItemRouter } = require("./routes/tenantItemRoute.js")
+const { createPublicTenantItem } = require("./controllers/tenantItemController.js")
 
 // swagger autogen
 const swaggerUi = require('swagger-ui-express')
@@ -50,6 +51,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
 app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
+
+app.get('/public/tenantItems', createPublicTenantItem);
 
 app.use(introspection)
 app.use(logger);

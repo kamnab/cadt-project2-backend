@@ -29,6 +29,31 @@ const createTenantItem = asyncHandler(async (req, res) => {
     const result = await tenantItem.save();
     return res.json(result);
 });
+const createPublicTenantItem = asyncHandler(async (req, res) => {
+    // #swagger.tags = ['TenantItems']
+    // #swagger.description = "create new tenantItem"
+
+    // check if user is authenticated
+    // get userId of authenticated user
+    // set createdByUserId = userId
+
+    const { tenantId, itemId, userId } = req.body;
+    const tenantItem = new TenantItem({
+        tenantId: tenantId,
+        itemId: itemId,
+
+        createdByUserId: userId,
+        //createdOn: utcPlus7Date,
+
+        host: req.headers.host,
+        origin: req.headers.origin,
+        referer: req.headers.referer
+    });
+
+    //const error = tenantItem.validateSync();
+    const result = await tenantItem.save();
+    return res.json(result);
+});
 
 const getAllTenantItems = async (req, res) => {
     // #swagger.tags = ['TenantItems']
@@ -66,5 +91,6 @@ const getTenantItems = async (req, res) => {
 module.exports = {
     getAllTenantItems,
     createTenantItem,
+    createPublicTenantItem,
     getTenantItems
 };
