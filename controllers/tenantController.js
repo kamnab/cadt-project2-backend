@@ -77,6 +77,25 @@ const setDeletedTenantById = asyncHandler(async (req, res, next) => {
     return res.json(tenant)
 })
 
+async function createDocumentWithUniqueRandomString(retries = 5) {
+    try {
+        const newDocument = new MyModel();
+        await newDocument.save();
+        console.log('Document saved successfully:', newDocument);
+        return newDocument;
+    } catch (error) {
+        if (error.code === 11000 && retries > 0) { // 11000 is MongoDB duplicate key error code
+            console.warn('Duplicate randomString detected. Retrying...', retries);
+            // Retry by recursively calling the function
+            return createDocumentWithUniqueRandomString(retries - 1);
+        } else {
+            // Handle other errors or if retries are exhausted
+            console.error('Failed to save document:', error);
+            throw error; // or handle it as per your use case
+        }
+    }
+}
+
 const createTenant = asyncHandler(async (req, res) => {
     // #swagger.tags = ['Tenants']
     // #swagger.description = "create new tenant"
@@ -85,22 +104,34 @@ const createTenant = asyncHandler(async (req, res) => {
     // get userId of authenticated user
     // set createdByUserId = userId
 
-    const { name, description } = req.body;
-    const tenant = new Tenant({
-        name: name,
-        description: description,
+    try {
+        const { name, description } = req.body;
+        const tenant = new Tenant({
+            name: name,
+            description: description,
 
-        createdByUserId: req.user.sub,
-        //createdOn: utcPlus7Date,
+            createdByUserId: req.user.sub,
+            //createdOn: utcPlus7Date,
 
-        host: req.headers.host,
-        origin: req.headers.origin,
-        referer: req.headers.referer
-    });
+            host: req.headers.host,
+            origin: req.headers.origin,
+            referer: req.headers.referer
+        });
+        //const error = tenant.validateSync();
+        const result = await tenant.save();
+        return res.json(result);
 
-    //const error = tenant.validateSync();
-    const result = await tenant.save();
-    return res.json(result);
+    } catch (error) {
+        if (error.code === 11000) { // 11000 is MongoDB duplicate key error code
+            console.warn('Duplicate randomString detected. Retrying...');
+            // Retry by recursively calling the function
+            return createTenant();
+        } else {
+            // Handle other errors or if retries are exhausted
+            console.error('Failed to save document:', error);
+            throw error; // or handle it as per your use case
+        }
+    }
 });
 
 const updateTenantById = asyncHandler(async (req, res, next) => {
