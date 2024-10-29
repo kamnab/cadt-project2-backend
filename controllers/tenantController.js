@@ -32,10 +32,40 @@ const getTenants = async (req, res) => {
     // 
     const userId = req.user.sub;
 
-    const tenants = await Tenant.find({
+    const tenantUsers = await TenantUser.find({
+        createdByUserId: userId,
+        isDeleted: false,
+    });
+
+    const tenantIds = tenantUsers.map((t) => t.tenantId);
+    // const tenants = await Tenant.find({
+    //     $or: [
+    //         { _id: { $in: tenantIds } },    // Match tenant IDs
+    //         { createdByUserId: userId }     // OR match createdByUserId
+    //     ],
+    //     isDeleted: false
+    // });
+
+    // Step 2: Query tenants by tenant IDs
+    const tenantMatches = await Tenant.find({
+        _id: { $in: tenantIds },
+        isDeleted: false
+    }).lean();  // Use .lean() to get plain JavaScript objects
+
+    // Add a custom field to indicate match by tenantId
+    tenantMatches.forEach(tenant => {
+        tenant.createdByUserId = null;
+    });
+
+    // Step 3: Query tenants by createdByUserId
+    const userIdMatches = await Tenant.find({
         createdByUserId: userId,
         isDeleted: false
-    }).sort({ 'createdOn': 'desc' });
+    }).lean();
+
+    // Step 4: Combine both results
+    const tenants = [...tenantMatches, ...userIdMatches];
+
     return res.json(tenants);
 };
 
@@ -138,20 +168,16 @@ const joinTenant = async (req, res) => {
         });
     }
 
-    const tenantUser = await TenantUser.findOne({ tenantId: tenant._id, userId });
-    if (!tenantUser) {
-        return res.status(404).json({
-            error: 'Not found'
-        });
-    }
-
-    if (tenantUser.isDeleted) {
-        tenantUser.isDeleted = false;
+    const tenantUser = await TenantUser.findOne({ tenantId: tenant._id, createdByUserId: userId });
+    if (tenantUser) {
+        if (!tenantUser.isDeleted) {
+            tenantUser.isDeleted = true;
+        }
     } else {
         tenantUser = TenantUser({
             tenantId: tenant._id,
-            userId: userId,
-            userName: userName
+            userName: userName,
+            createdByUserId: userId
         })
     }
 

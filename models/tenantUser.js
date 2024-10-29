@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 const tenantUserSchema = new mongoose.Schema({
     tenantId: { type: String, require: true },
-    userId: { type: String, require: true },
     userName: { type: String, require: true },
 
     // ---------------------------------
