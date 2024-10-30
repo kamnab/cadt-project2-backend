@@ -22,6 +22,7 @@ const tenantSchema = new mongoose.Schema({
         unique: true // Ensures the randomString is unique
     },
 
+    isPublic: { type: Boolean, default: false },
     // ---------------------------------
     createdByUserId: {
         type: String

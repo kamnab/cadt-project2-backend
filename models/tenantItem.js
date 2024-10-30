@@ -10,6 +10,8 @@ const tenantItemSchema = new mongoose.Schema({
     // save [id] of the parent record in this entity
     forwardId: { type: String, default: '' },
 
+    isPin: { type: Boolean, default: false },
+    sortPin: { type: Number, default: 0 },
     // ---------------------------------
     createdByUserId: {
         type: String

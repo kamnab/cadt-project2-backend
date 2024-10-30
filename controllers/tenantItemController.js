@@ -88,6 +88,30 @@ const getTenantItems = async (req, res) => {
     return res.json(tenantItems);
 };
 
+// const getTenantItemsByTitle = async (req, res) => {
+//     // #swagger.tags = ['TenantItems']
+//     // #swagger.description = "get all tenants's item owned by tenantID not [logged in user] and is not in deleted status"
+
+//     // check if user is authenticated
+//     // get userId of authenticated user
+//     // get all tenants by userId and is not in deleted status
+//     // 
+//     const tenantId = req.params.tenantId;
+//     const searchTerm = req.params.term;
+
+//     const tenantItems = await TenantItem.find(
+//         {
+//             tenantId: tenantId,
+//             isDeleted: false,
+//         },
+//         { itemId: 1 } // Only select the 'itemId' field
+//     )
+//         .sort({ createdOn: -1 })
+//         .lean();
+
+//     return res.json(tenantItems);
+// };
+
 module.exports = {
     getAllTenantItems,
     createTenantItem,
