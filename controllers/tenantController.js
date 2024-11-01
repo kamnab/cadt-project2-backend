@@ -170,8 +170,8 @@ const joinTenant = async (req, res) => {
 
     let tenantUser = await TenantUser.findOne({ tenantId: tenant._id, createdByUserId: userId });
     if (tenantUser) {
-        if (!tenantUser.isDeleted) {
-            tenantUser.isDeleted = true;
+        if (tenantUser.isDeleted) {
+            tenantUser.isDeleted = false;
         }
     } else {
         tenantUser = TenantUser({
