@@ -54,7 +54,8 @@ const getTenants = async (req, res) => {
 
     // Add a custom field to indicate match by tenantId
     tenantMatches.forEach(tenant => {
-        tenant.createdByUserId = null;
+        tenant.createdByUserId = null;  // Set to null to remove the tenant's owner privilege
+        tenant.inviteCode = null;       // Only tenant owner will have the inviteCode
     });
 
     // Step 3: Query tenants by createdByUserId
