@@ -22,7 +22,7 @@ const { introspection } = require('./middlewares/introspection.js');
 
 const { tenantRouter } = require("./routes/tenantRoute.js")
 const { tenantItemRouter } = require("./routes/tenantItemRoute.js")
-const { createPublicTenantItem } = require("./controllers/tenantItemController.js")
+const { tenantUserRouter } = require("./routes/tenantUserRoute.js")
 
 // swagger autogen
 const swaggerUi = require('swagger-ui-express')
@@ -42,6 +42,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, {
             clientSecret: 'CADT-PROJECT2-MOBILE-CLIENT-2024',
 
             useBasicAuthenticationWithAccessCodeGrant: true,
+            usePkceWithAuthorizationCodeGrant: true,
             // Default scopes to be pre-selected
             scopes: "fapi"
         }
@@ -52,13 +53,14 @@ app.get('/', (req, res) => {
     res.send(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`);
 });
 
-app.get('/public/tenantItems', createPublicTenantItem);
+// app.get('/public/tenantItems', createPublicTenantItem);
 
 app.use(introspection)
 app.use(logger);
 
 app.use(tenantRouter);
 app.use(tenantItemRouter);
+app.use(tenantUserRouter);
 app.use(errorHandle);
 
 if (!isDev) {
