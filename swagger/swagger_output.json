@@ -126,29 +126,6 @@
           "Tenants"
         ],
         "description": "create new tenant",
-        "parameters": [
-          {
-            "name": "host",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "origin",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "referer",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -164,6 +141,36 @@
                     "example": "any"
                   },
                   "description": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tenants/join": {
+      "post": {
+        "tags": [
+          "Tenants"
+        ],
+        "description": "join tenant by code",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
                     "example": "any"
                   }
                 }
