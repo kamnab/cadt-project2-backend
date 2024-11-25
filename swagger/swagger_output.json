@@ -326,7 +326,7 @@
       },
       "get": {
         "tags": [
-          "TenantItems"
+          "TenantCategories"
         ],
         "description": "get all tenants's item owned by tenantID not by [logged in user] and is not in deleted status",
         "parameters": [

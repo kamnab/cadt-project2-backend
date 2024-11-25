@@ -32,7 +32,7 @@ const createTenantCategory = asyncHandler(async (req, res) => {
 });
 
 const getTenantCategories = async (req, res) => {
-    // #swagger.tags = ['TenantItems']
+    // #swagger.tags = ['TenantCategories']
     // #swagger.description = "get all tenants's item owned by tenantID not by [logged in user] and is not in deleted status"
 
     // check if user is authenticated
