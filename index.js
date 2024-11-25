@@ -23,6 +23,7 @@ const { introspection } = require('./middlewares/introspection.js');
 const { tenantRouter } = require("./routes/tenantRoute.js")
 const { tenantItemRouter } = require("./routes/tenantItemRoute.js")
 const { tenantUserRouter } = require("./routes/tenantUserRoute.js")
+const { tenantCategoryRouter } = require("./routes/tenantCategoryRoute.js")
 
 // swagger autogen
 const swaggerUi = require('swagger-ui-express')
@@ -61,6 +62,7 @@ app.use(logger);
 app.use(tenantRouter);
 app.use(tenantItemRouter);
 app.use(tenantUserRouter);
+app.use(tenantCategoryRouter);
 app.use(errorHandle);
 
 if (!isDev) {
