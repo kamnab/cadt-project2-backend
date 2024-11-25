@@ -3,7 +3,11 @@
 const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
 
 const outputFile = './swagger_output.json';  // Path for the generated file
-const endpointsFiles = ['../routes/tenantRoute.js', '../routes/tenantItemRoute.js'];  // Your API route files
+const endpointsFiles = [
+    '../routes/tenantRoute.js',
+    '../routes/tenantItemRoute.js',
+    '../routes/tenantCategoryRoute.js',
+];  // Your API route files
 
 const doc = {
     openapi: "3.0.0",  // Specify OpenAPI version
