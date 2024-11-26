@@ -20,7 +20,7 @@ const doc = {
     },
     servers: [
         {
-            url: "https://localhost:4000",
+            url: "/",
             description: "OAuth2 Scope: fapi"
         }
     ],
