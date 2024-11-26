@@ -6,7 +6,9 @@ const outputFile = './swagger_output.json';  // Path for the generated file
 const endpointsFiles = [
     '../routes/tenantRoute.js',
     '../routes/tenantItemRoute.js',
+    '../routes/tenantUserRoute.js',
     '../routes/tenantCategoryRoute.js',
+    '../routes/tenantCategoryItemRoute.js',
 ];  // Your API route files
 
 const doc = {
@@ -18,8 +20,8 @@ const doc = {
     },
     servers: [
         {
-            url: "/",  // Base URL
-            description: "Local server"
+            url: "https://localhost:4000",
+            description: "OAuth2 Scope: fapi"
         }
     ],
     tags: [

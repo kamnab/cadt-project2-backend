@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "/",
-      "description": "Local server"
+      "url": "https://localhost:4000",
+      "description": "OAuth2 Scope: fapi"
     }
   ],
   "tags": [
@@ -267,6 +267,29 @@
         }
       }
     },
+    "/tenantUsers/{tenantId}": {
+      "get": {
+        "tags": [
+          "TenantUsers"
+        ],
+        "description": "get users in the tenant by tenantID",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/tenantCategories/{tenantId}": {
       "post": {
         "tags": [
@@ -390,6 +413,152 @@
           "TenantCategories"
         ],
         "description": "Set delete tenant category by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/tenantCategoryItems/{tenantId}": {
+      "get": {
+        "tags": [
+          "TenantCategoryItems"
+        ],
+        "description": "get all tenants's item owned by tenantID not [logged in user] and is not in deleted status",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TenantCategoryItems"
+        ],
+        "description": "create new tenantItem",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "host",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "referer",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoryId": {
+                    "example": "any"
+                  },
+                  "itemId": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tenantCategoryItems/{id}": {
+      "put": {
+        "tags": [
+          "TenantCategoryItems"
+        ],
+        "description": "Move itemId to selected category by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoryId": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TenantCategoryItems"
+        ],
+        "description": "Remove item from current tenant category by id",
         "parameters": [
           {
             "name": "id",

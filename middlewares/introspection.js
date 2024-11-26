@@ -2,11 +2,7 @@
 
 const asyncHandler = require('express-async-handler')
 const axios = require('axios');
-
-const express = require('express');
-const app = express();
-const env = app.settings.env.toUpperCase();
-const isDev = env == 'DEVELOPMENT';
+const prodSettings = process.env._NODE_ENV == 'PROD Settings'; // production auth server
 
 /* 
     To further enhance security, you can use Certificate Public Key export from authorization server. 
@@ -49,8 +45,8 @@ const introspection = asyncHandler(async (req, res, next) => {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            /* required public certificate from authorization server to be able to make a request */
-            httpsAgent: isDev ? agent : null
+            /* required public certificate from localhost authorization server to be able to make a request */
+            httpsAgent: prodSettings ? null : agent
         }
     );
 

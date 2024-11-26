@@ -1,11 +1,11 @@
-// models/tenantCategory.js
+// models/tenantCategoryItem.js
 
 const mongoose = require('mongoose');
 
-const tenantCategorySchema = new mongoose.Schema({
+const tenantCategoryItemSchema = new mongoose.Schema({
     tenantId: { type: String, require: true },
-    // articleId, fileId, ....
-    name: { type: String, require: true },
+    categoryId: { type: String, require: true },
+    itemId: { type: String, require: true },
 
     // ---------------------------------
     createdByUserId: {
@@ -25,6 +25,6 @@ const tenantCategorySchema = new mongoose.Schema({
     referer: { type: String, default: '' }
 });
 
-const tenantCategory = mongoose.model('tenantCategory', tenantCategorySchema);
+const tenantCategoryItem = mongoose.model('tenantCategoryItem', tenantCategoryItemSchema);
 
-module.exports = tenantCategory;
+module.exports = tenantCategoryItem;
