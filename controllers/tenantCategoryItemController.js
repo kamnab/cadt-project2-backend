@@ -13,8 +13,9 @@ const createTenantCategoryItem = asyncHandler(async (req, res) => {
     // set createdByUserId = userId
 
     const tenantId = req.params.tenantId;
+    const categoryId = req.params.categoryId;
 
-    const { categoryId, itemId } = req.body;
+    const { itemId } = req.body;
     const tenantCategoryItem = new TenantCategoryItem({
         tenantId: tenantId,
         categoryId: categoryId,

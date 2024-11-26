@@ -433,7 +433,7 @@
         }
       }
     },
-    "/tenantCategoryItems/{tenantId}": {
+    "/tenants/{tenantId}/categories/{categoryId}": {
       "get": {
         "tags": [
           "TenantCategoryItems"
@@ -442,6 +442,14 @@
         "parameters": [
           {
             "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
             "in": "path",
             "required": true,
             "schema": {
@@ -463,6 +471,14 @@
         "parameters": [
           {
             "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
             "in": "path",
             "required": true,
             "schema": {
@@ -502,9 +518,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "categoryId": {
-                    "example": "any"
-                  },
                   "itemId": {
                     "example": "any"
                   }
@@ -515,7 +528,7 @@
         }
       }
     },
-    "/tenantCategoryItems/{id}": {
+    "/tenants/category-items/{id}": {
       "put": {
         "tags": [
           "TenantCategoryItems"

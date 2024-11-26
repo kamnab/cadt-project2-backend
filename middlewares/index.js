@@ -5,6 +5,8 @@ const logger = (req, res, next) => {
 
   !req.user ? console.log(`Hello ${!req.user ? 'Annonymous' : req.user.email}!`) :
     console.log(`${req.method} ${req.url}, user.sub: ${req.user.sub}, user.email: ${req.user.email}`);
+
+
   next(); // Call the next middleware function
 };
 
