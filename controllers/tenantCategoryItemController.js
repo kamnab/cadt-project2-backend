@@ -14,9 +14,31 @@ const createTenantCategoryItem = asyncHandler(async (req, res) => {
 
     const tenantId = req.params.tenantId;
     const categoryId = req.params.categoryId;
-
     const { itemId } = req.body;
-    const tenantCategoryItem = new TenantCategoryItem({
+
+    const tenantCategoryItem = await TenantCategoryItem.findOne({
+        tenantId: tenantId,
+        itemId: itemId,
+    });
+
+    if (tenantCategoryItem) {
+        if (!categoryId || categoryId === '') {
+            tenantCategoryItem.categoryId = '';
+            tenantCategoryItem.isDeleted = true;
+            const result = await tenantCategoryItem.save();
+            return res.json(result);
+        }
+
+        if (tenantCategoryItem.isDeleted) {
+            tenantCategoryItem.isDeleted = false;
+        }
+        tenantCategoryItem.categoryId = categoryId;
+
+        const result = await tenantCategoryItem.save();
+        return res.json(result);
+    }
+
+    tenantCategoryItem = new TenantCategoryItem({
         tenantId: tenantId,
         categoryId: categoryId,
         itemId: itemId,
