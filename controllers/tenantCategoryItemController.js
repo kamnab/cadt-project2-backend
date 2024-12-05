@@ -22,7 +22,7 @@ const createTenantCategoryItem = asyncHandler(async (req, res) => {
     });
 
     if (tenantCategoryItem) {
-        if (!categoryId || categoryId === '') {
+        if (!categoryId) {
             tenantCategoryItem.categoryId = '';
             tenantCategoryItem.isDeleted = true;
             const result = await tenantCategoryItem.save();
