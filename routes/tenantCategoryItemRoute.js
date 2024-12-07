@@ -3,7 +3,7 @@ const { createTenantCategoryItem, getTenantCategoryItems, updateTenantCategoryIt
 const tenantCategoryItemRouter = express.Router();
 
 tenantCategoryItemRouter.get("/tenants/:tenantId/categories/:categoryId", getTenantCategoryItems);
-tenantCategoryItemRouter.post("/tenants/:tenantId/categories/:categoryId", createTenantCategoryItem);
+tenantCategoryItemRouter.post("/tenants/:tenantId/categories", createTenantCategoryItem);
 tenantCategoryItemRouter.put("/tenants/category-items/:id", updateTenantCategoryItemById);
 tenantCategoryItemRouter.delete("/tenants/category-items/:id", setDeletedTenantCategoryItemById);
 
