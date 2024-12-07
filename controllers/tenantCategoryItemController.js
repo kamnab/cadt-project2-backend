@@ -1,3 +1,4 @@
+const TenantCategory = require('../models/tenantCategory')
 const TenantCategoryItem = require("../models/tenantCategoryItem");
 const asyncHandler = require('express-async-handler')
 
@@ -13,8 +14,8 @@ const createTenantCategoryItem = asyncHandler(async (req, res) => {
     // set createdByUserId = userId
 
     const tenantId = req.params.tenantId;
-    const categoryId = req.params.categoryId;
-    const { itemId } = req.body;
+    //const categoryId = req.params.categoryId;
+    const { categoryId, itemId } = req.body;
 
     const tenantCategoryItem = await TenantCategoryItem.findOne({
         tenantId: tenantId,
@@ -23,6 +24,7 @@ const createTenantCategoryItem = asyncHandler(async (req, res) => {
 
     if (tenantCategoryItem) {
         if (!categoryId) {
+            // delete
             tenantCategoryItem.categoryId = '';
             tenantCategoryItem.isDeleted = true;
             const result = await tenantCategoryItem.save();
