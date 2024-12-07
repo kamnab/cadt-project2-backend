@@ -17,7 +17,7 @@ const createTenantCategoryItem = asyncHandler(async (req, res) => {
     //const categoryId = req.params.categoryId;
     const { categoryId, itemId } = req.body;
 
-    const tenantCategoryItem = await TenantCategoryItem.findOne({
+    let tenantCategoryItem = await TenantCategoryItem.findOne({
         tenantId: tenantId,
         itemId: itemId,
     });
