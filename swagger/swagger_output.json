@@ -462,7 +462,9 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/tenants/{tenantId}/categories": {
       "post": {
         "tags": [
           "TenantCategoryItems"
@@ -471,14 +473,6 @@
         "parameters": [
           {
             "name": "tenantId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "categoryId",
             "in": "path",
             "required": true,
             "schema": {
@@ -518,6 +512,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "categoryId": {
+                    "example": "any"
+                  },
                   "itemId": {
                     "example": "any"
                   }

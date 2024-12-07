@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 
 const tenantCategoryItemSchema = new mongoose.Schema({
     tenantId: { type: String, require: true },
-    categoryId: { type: String, require: true },
     itemId: { type: String, require: true },
+    categoryId: { type: String },
 
     // ---------------------------------
     createdByUserId: {
