@@ -10,8 +10,14 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
+# Install only production dependencies
 RUN npm install --production
+
+# Optional: Install dotenv if you're using environment files for configuration
+RUN npm install dotenv --production
+
+# Copy the .env file to the container (if you are using dotenv in the app)
+COPY .env .env
 
 # Copy the rest of the application code
 COPY . .
