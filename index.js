@@ -13,7 +13,7 @@ const env = app.settings.env.toUpperCase();
 const isDev = env == 'DEVELOPMENT';
 
 require('dotenv').config(isDev ? {
-    //path: `.env.${process.env.NODE_ENV}`
+    path: `.env.${process.env.NODE_ENV}`
 } : {})
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
